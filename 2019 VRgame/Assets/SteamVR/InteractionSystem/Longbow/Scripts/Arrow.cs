@@ -6,7 +6,6 @@
 
 using UnityEngine;
 using System.Collections;
-
 namespace Valve.VR.InteractionSystem
 {
 	//-------------------------------------------------------------------------
@@ -36,12 +35,13 @@ namespace Valve.VR.InteractionSystem
 		private int travelledFrames = 0;
 
 		private GameObject scaleParentObject = null;
-
+        private GameObject GameMaster;
 
 		//-------------------------------------------------
 		void Start()
 		{
 			Physics.IgnoreCollision( shaftRB.GetComponent<Collider>(), Player.instance.headCollider );
+            GameMaster = GameObject.Find("Gamemaster");
 		}
 
 
@@ -195,6 +195,10 @@ namespace Valve.VR.InteractionSystem
 		private void StickInTarget( Collision collision, bool bSkipRayCast )
 		{
 			Vector3 prevForward = prevRotation * Vector3.forward;
+
+            //ここから追加
+            //矢自身の位置をgamemasterに教える
+            GameMaster.SendMessage("AddScore", this.transform.GetChild(0).transform);
 
 			// Only stick in target if the collider is front of the arrow head
 			if ( !bSkipRayCast )

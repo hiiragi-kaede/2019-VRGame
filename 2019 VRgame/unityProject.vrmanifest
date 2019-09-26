@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.2019vrgame.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\Jouhouken\\2019 vrgame(kari)\\2019 VRgame\\actions.json",
+      "action_manifest_path": "C:\\Users\\Jouhouken\\Desktop\\2019-VRGame-local\\2019 VRgame\\actions.json",
       "strings": {
         "en_us": {
           "name": "2019 VRgame [Testing]"
