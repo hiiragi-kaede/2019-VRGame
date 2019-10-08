@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\myfolder\MyScript\GameMaster.cs" />
+    <Compile Include="Assets\myfolder\MyScript\Nav_Controll.cs" />
+    <Compile Include="Assets\myfolder\MyScript\Player_Controll.cs" />
     <Compile Include="Assets\myfolder\MyScript\ScoreText.cs" />
     <Compile Include="Assets\myfolder\MyScript\SingletonMonobehaviour.cs" />
     <Compile Include="Assets\myfolder\MyScript\TargetScoreManager.cs" />
