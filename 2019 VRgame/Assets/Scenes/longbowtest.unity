@@ -2265,7 +2265,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683559002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.34, z: -15.92}
+  m_LocalPosition: {x: 0, y: 0, z: -15.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1697570689}
@@ -2287,7 +2287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player_vechicle: {fileID: 1683559002}
-  moveSpeed: 2
+  moveSpeed: 4
 --- !u!195 &1683559005
 NavMeshAgent:
   m_ObjectHideFlags: 0

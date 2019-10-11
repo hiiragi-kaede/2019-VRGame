@@ -6,6 +6,8 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
+
 namespace Valve.VR.InteractionSystem
 {
 	//-------------------------------------------------------------------------
@@ -191,14 +193,20 @@ namespace Valve.VR.InteractionSystem
 		}
 
 
-		//-------------------------------------------------
-		private void StickInTarget( Collision collision, bool bSkipRayCast )
-		{
-			Vector3 prevForward = prevRotation * Vector3.forward;
+        //-------------------------------------------------
+        private void StickInTarget(Collision collision, bool bSkipRayCast)
+        {
+            Vector3 prevForward = prevRotation * Vector3.forward;
 
             //ここから追加
             //矢自身の位置をgamemasterに教える
-            GameMaster.SendMessage("AddScore", this.transform.GetChild(0).transform);
+            //GameMaster.SendMessage("AddScore", this.transform.GetChild(0).transform);
+            ExecuteEvents.Execute<OnHitEvent>(
+                GameMaster,
+                null,
+                (handler, eventData) => handler.Onhit(collision.gameObject, this.transform.GetChild(0).transform)
+                );
+            
 
 			// Only stick in target if the collider is front of the arrow head
 			if ( !bSkipRayCast )
@@ -267,6 +275,7 @@ namespace Valve.VR.InteractionSystem
 			transform.position = prevPosition;
 			transform.position = collision.contacts[0].point - transform.forward * ( 0.75f - ( Util.RemapNumberClamped( prevVelocity.magnitude, 0f, 10f, 0.0f, 0.1f ) + Random.Range( 0.0f, 0.05f ) ) );
 		}
+        
 
 
 		//-------------------------------------------------

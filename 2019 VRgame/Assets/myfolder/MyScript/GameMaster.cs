@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameMaster : MonoBehaviour //シングルトンクラスです
+
+public class GameMaster : MonoBehaviour,OnHitEvent //シングルトンクラスです
 {
-     private static GameMaster instance;
+    
+    private static GameMaster instance;
      [SerializeField] private int MaxScore = 99999;
      private int totalscore;
-     [Tooltip("<Target>タグを的の中心位置のオブジェクトにつけてください")]
+     /*[Tooltip("<Target>タグを的の中心位置のオブジェクトにつけてください")]
      private GameObject[] targets;
-     private float[] distances;
+     private float[] distances;*/
      [SerializeField] private Text dis_debug;
      public static GameMaster Instance
      {
@@ -28,7 +30,7 @@ public class GameMaster : MonoBehaviour //シングルトンクラスです
      void Start()
      {
          totalscore = 0;
-         targets = GameObject.FindGameObjectsWithTag("Target");//Targetタグをつけるのは的の中心位置のオブジェクトにしてください
+         /*targets = GameObject.FindGameObjectsWithTag("Target");//Targetタグをつけるのは的の中心位置のオブジェクトにしてください
          if (targets.Length == 0)
          {
              Debug.LogError("Targetタグが付いたオブジェクトが存在しません");
@@ -42,6 +44,7 @@ public class GameMaster : MonoBehaviour //シングルトンクラスです
              }
          }
          distances = new float[targets.Length];
+         */
      }
 
      public int GetScore()
@@ -49,16 +52,14 @@ public class GameMaster : MonoBehaviour //シングルトンクラスです
          return totalscore;
      }
 
-     public void AddScore(Transform arrow_pos)
+     private void AddScore(Transform target_pos,Transform arrow_pos,int maxpoint)
      {
-        int minid = NearestTargetCeneterIdx(arrow_pos);
-        int point = targets[minid].GetComponent<TargetScoreManager>().maxsocre;
-        float dis = distances[minid];
-
+        float dis = Vector3.Distance(target_pos.position, arrow_pos.position);
+        int point;
         //そのまま加算
-        if (dis < 0.1f) point = (int)(point * 0.8f);
-        else if (dis < 0.2f) point = (int)(point * 0.5f);
-        else if (dis < 0.5f) point = (int)(point * 0.2f);
+        if (dis < 0.1f) point = (int)(maxpoint * 1f);
+        else if (dis < 0.2f) point = (int)(maxpoint * 0.8f);
+        else if (dis < 0.5f) point = (int)(maxpoint * 0.4f);
         else point = 0;
         dis_debug.text = "Dis: " + dis.ToString("F3") + "f";
         totalscore += point;
@@ -66,15 +67,23 @@ public class GameMaster : MonoBehaviour //シングルトンクラスです
         //Debug.Log(totalscore);
      }
 
-     private int NearestTargetCeneterIdx(Transform arrow_pos)
-     {
-        int idx = 0;
-        for (int i = 0; i < targets.Length; i++)
-        {
-            distances[i] = Vector3.Distance(targets[i].transform.position, arrow_pos.transform.position);
-        }
-        float min = Mathf.Min(distances);
-        for (int i = 0; i < targets.Length; i++) if (distances[i] == min) idx = i;
-        return idx;
-     }
+     //private int NearestTargetCeneterIdx(Transform arrow_pos)
+     //{
+     //   int idx = 0;
+     //   for (int i = 0; i < targets.Length; i++)
+     //   {
+     //       distances[i] = Vector3.Distance(targets[i].transform.position, arrow_pos.transform.position);
+     //   }
+     //   float min = Mathf.Min(distances);
+     //   for (int i = 0; i < targets.Length; i++) if (distances[i] == min) idx = i;
+     //   return idx;
+     //}
+
+    void OnHitEvent.Onhit(GameObject hitObject, Transform arrow_pos)
+    {
+        var center = hitObject.transform.GetChild(1).gameObject;
+        int maxpoint = center.GetComponent<TargetScoreManager>().maxsocre;
+
+        AddScore(center.transform, arrow_pos, maxpoint);
+    }
 }
