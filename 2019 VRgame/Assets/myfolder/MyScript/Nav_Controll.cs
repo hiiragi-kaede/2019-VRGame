@@ -58,7 +58,7 @@ public class Nav_Controll : MonoBehaviour
                 return;
             }
 
-            if (Vector3.Distance(Player.position, destinations[idx].transform.position) < 0.7f)
+            if (Vector3.Distance(Player.position, destinations[idx].transform.position) < 0.8f)
             {
                 particle = destinations[idx].transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
                 if (particle.isPlaying)

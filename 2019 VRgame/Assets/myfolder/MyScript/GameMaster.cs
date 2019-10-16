@@ -57,8 +57,8 @@ public class GameMaster : MonoBehaviour,OnHitEvent //シングルトンクラス
         float dis = Vector3.Distance(target_pos.position, arrow_pos.position);
         int point;
         //そのまま加算
-        if (dis < 0.1f) point = (int)(maxpoint * 1f);
-        else if (dis < 0.2f) point = (int)(maxpoint * 0.8f);
+        if (dis < 0.2f) point = (int)(maxpoint * 1f);
+        else if (dis < 0.3f) point = (int)(maxpoint * 0.8f);
         else if (dis < 0.5f) point = (int)(maxpoint * 0.4f);
         else point = 0;
         dis_debug.text = "Dis: " + dis.ToString("F3") + "f";
