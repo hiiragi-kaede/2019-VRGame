@@ -82,7 +82,7 @@ public class GameMaster : MonoBehaviour,OnHitEvent //シングルトンクラス
     void OnHitEvent.Onhit(GameObject hitObject, Transform arrow_pos)
     {
         var center = hitObject.transform.GetChild(1).gameObject;
-        int maxpoint = center.GetComponent<TargetScoreManager>().maxsocre;
+        int maxpoint = hitObject.transform.parent.parent.GetComponent<TargetScoreManager>().maxsocre;
 
         AddScore(center.transform, arrow_pos, maxpoint);
     }
