@@ -16,6 +16,19 @@ public class Nav_Controll : MonoBehaviour
     private bool isPlaying;
     public Text debugtext;
 
+    [SerializeField] private Animator fallAni;
+    [Tooltip("最初から二番目のカーブまでの速度")]
+    [SerializeField] private float first_speed=3f;
+
+    [Tooltip("二番目のカーブから三番目のカーブまでの速度")]
+    [SerializeField] private float second_speed=3.5f;
+
+    [Tooltip("三番目のカーブから最後のカーブまでの速度")]
+    [SerializeField] private float third_speed=3f;
+
+    [Tooltip("最後のカーブからゴールまでの速度")]
+    [SerializeField] private float last_speed=2.5f;
+
     private ParticleSystem particle;
 
     // Start is called before the first frame update
@@ -28,6 +41,7 @@ public class Nav_Controll : MonoBehaviour
             var child = obj.transform.GetChild(0).gameObject;//パーティクルのオブジェクトを取得
             child.GetComponent<ParticleSystem>().Stop();//最初は全部非表示
         }
+        fallAni.SetBool("Play", false);
     }
 
     // Update is called once per frame
@@ -66,6 +80,7 @@ public class Nav_Controll : MonoBehaviour
                     particle.Stop();//前のパーティクルをストップ
                 }
                 idx++;
+                Debug.Log(idx);
             }
 
             if (idx >= destinations.Length)
@@ -81,7 +96,15 @@ public class Nav_Controll : MonoBehaviour
             {
                 particle.Play();
             }
-            //Debug.Log(idx);
+            if (idx >= 0&&idx<=8) navMesh.speed = first_speed;
+            else if (idx >= 9&&idx<=12) navMesh.speed = second_speed;
+            else if (idx >= 13&&idx<=15) navMesh.speed = third_speed;
+            else if (idx >= 16)
+            {
+                navMesh.speed = last_speed;
+
+                fallAni.SetBool("Play", true);
+            }
         }
     }
 }
