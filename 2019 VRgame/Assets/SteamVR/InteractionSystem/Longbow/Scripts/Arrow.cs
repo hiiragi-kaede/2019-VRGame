@@ -64,6 +64,13 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		public void ArrowReleased( float inputVelocity )
 		{
+            ExecuteEvents.Execute<Arrow_Prep>(
+                GameMaster,
+                null,
+                (handler, eventdata) => handler.CountPrep()
+                );
+            //矢を放った回数をカウント
+
 			inFlight = true;
 			released = true;
 
@@ -199,14 +206,13 @@ namespace Valve.VR.InteractionSystem
             Vector3 prevForward = prevRotation * Vector3.forward;
 
             //ここから追加
-            //矢自身の位置をgamemasterに教える
-            //GameMaster.SendMessage("AddScore", this.transform.GetChild(0).transform);
             ExecuteEvents.Execute<OnHitEvent>(
                 GameMaster,
                 null,
                 (handler, eventData) => handler.Onhit(collision.gameObject, this.transform.GetChild(0).transform)
                 );
             
+            //ここまで追加
 
 			// Only stick in target if the collider is front of the arrow head
 			if ( !bSkipRayCast )

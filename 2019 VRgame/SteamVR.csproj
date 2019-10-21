@@ -174,7 +174,8 @@
     <Compile Include="Assets\SteamVR\InteractionSystem\Longbow\Scripts\ExplosionWobble.cs" />
     <Compile Include="Assets\SteamVR\InteractionSystem\Longbow\Scripts\FireSource.cs" />
     <Compile Include="Assets\SteamVR\InteractionSystem\Longbow\Scripts\Longbow.cs" />
-    <Compile Include="Assets\SteamVR\InteractionSystem\Longbow\Scripts\OnHitEvent.cs" />
+    <Compile Include="Assets\SteamVR\InteractionSystem\Longbow\Scripts\my_interfaces\Arrow_Prep.cs" />
+    <Compile Include="Assets\SteamVR\InteractionSystem\Longbow\Scripts\my_interfaces\OnHitEvent.cs" />
     <Compile Include="Assets\SteamVR\InteractionSystem\Longbow\Scripts\SoundBowClick.cs" />
     <Compile Include="Assets\SteamVR\InteractionSystem\Longbow\Scripts\testinarrow.cs" />
     <Compile Include="Assets\SteamVR\InteractionSystem\Samples\BuggyBuddy\Audio\AmbientSound.cs" />
