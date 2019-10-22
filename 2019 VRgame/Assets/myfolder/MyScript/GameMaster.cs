@@ -19,6 +19,7 @@ public class GameMaster : MonoBehaviour,OnHitEvent,Arrow_Prep
     public int Count_hit { get; private set; }
     private AudioSource cleanhitsound;
     private AudioSource hitsound;
+    private AudioSource BGM;
     public bool IsPlaying { get; private set; }
     [SerializeField] private GameObject player;
 
@@ -58,6 +59,7 @@ public class GameMaster : MonoBehaviour,OnHitEvent,Arrow_Prep
         AudioSource[] audioSources = GetComponents<AudioSource>();
         cleanhitsound = audioSources[0];
         hitsound = audioSources[1];
+        BGM = audioSources[2];
      }
 
     void Update()
@@ -113,11 +115,13 @@ public class GameMaster : MonoBehaviour,OnHitEvent,Arrow_Prep
     public void StartGame()
     {
         IsPlaying = true;
+        BGM.Play();
     }
 
     public void EndGame()
     {
         IsPlaying = false;
+        BGM.Stop();
     }
 
     void OnHitEvent.Onhit(GameObject hitObject, Transform arrow_pos)

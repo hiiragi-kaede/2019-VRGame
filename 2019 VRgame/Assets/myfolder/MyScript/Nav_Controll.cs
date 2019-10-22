@@ -15,6 +15,7 @@ public class Nav_Controll : MonoBehaviour
     public SteamVR_Action_Boolean ChangeState;
     public Text debugtext;
     private GameMaster gameMaster;
+    public bool Resultdebug = false;
 
     [Tooltip("最初から二番目のカーブまでの速度")]
     [SerializeField] private float first_speed=3f;
@@ -47,13 +48,14 @@ public class Nav_Controll : MonoBehaviour
     {
         
         //Debug.Log(isPlaying);
-        if (ChangeState.GetStateDown(handType))
+        if (ChangeState.GetStateDown(handType)&&!gameMaster.IsPlaying)
         {
             gameMaster.StartGame();
         }
         debugtext.text = "state:" + gameMaster.IsPlaying.ToString();
 
 
+        if (Resultdebug) Progress = 19;
         if (!gameMaster.IsPlaying)
         {
             navMesh.velocity = Vector3.zero;
@@ -78,7 +80,7 @@ public class Nav_Controll : MonoBehaviour
                     particle.Stop();//前のパーティクルをストップ
                 }
                 Progress++;
-                Debug.Log(Progress);
+                //Debug.Log(Progress);
             }
 
             if (Progress >= destinations.Length)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables;
 
 public class EventHandler : MonoBehaviour
 {
@@ -9,11 +10,14 @@ public class EventHandler : MonoBehaviour
     [SerializeField] private Animator fallAni;
     [SerializeField] private GameObject UItexts;
     [SerializeField] private GameObject result_object;
+    [SerializeField] private PlayableDirector ShowResult;
     private GameMaster GM;
     private Text shot_text;
     private Text hit_text;
     private Text per_text;
+    private Text bonus__text;
     private Text score_text;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +28,10 @@ public class EventHandler : MonoBehaviour
         shot_text = result_object.transform.GetChild(1).gameObject.GetComponent<Text>();
         hit_text = result_object.transform.GetChild(2).gameObject.GetComponent <Text>();
         per_text = result_object.transform.GetChild(3).gameObject.GetComponent<Text>();
-        score_text = result_object.transform.GetChild(4).gameObject.GetComponent<Text>();
+        bonus__text= result_object.transform.GetChild(4).gameObject.GetComponent<Text>();
+        score_text = result_object.transform.GetChild(5).gameObject.GetComponent<Text>();
 
-        result_object.transform.GetChild(1).gameObject.SetActive(false);//撃った数
-        result_object.transform.GetChild(2).gameObject.SetActive(false);//ヒット数
-        result_object.transform.GetChild(3).gameObject.SetActive(false);//的中率
-        result_object.transform.GetChild(4).gameObject.SetActive(false);//スコア
-        result_object.SetActive(false);
+        result_object.SetActive(false);//パネルごと非表示に
     }
 
     // Update is called once per frame
@@ -43,30 +44,27 @@ public class EventHandler : MonoBehaviour
         }
         if (nav.Progress >= 19)//ゴールしたら
         {
-            result_object.SetActive(true);
             GM.EndGame();
-            StartCoroutine("ShowResult");
+            PrepShowResult();
+            result_object.SetActive(true);
+            ShowResult.Play();
         }
     }
+    
 
-    IEnumerator ShowResult()
+    private void PrepShowResult()
     {
         float hit_percent = ((float)GM.Count_hit / GM.Count_arrow * 100);
-        result_object.transform.GetChild(1).gameObject.SetActive(true);//撃った数
-        shot_text.text = "撃った数:" + GM.Count_arrow.ToString();
-        yield return new WaitForSeconds(1);
-        result_object.transform.GetChild(2).gameObject.SetActive(true);//ヒット数
-        hit_text.text = "ヒット数:" + GM.Count_hit.ToString();
-        yield return new WaitForSeconds(1);
-        result_object.transform.GetChild(3).gameObject.SetActive(true);//的中率
-        per_text.text = "的中率:" + hit_percent.ToString("F2")+"%";
-        yield return new WaitForSeconds(1);
-        result_object.transform.GetChild(4).gameObject.SetActive(true);//スコア
-        int last_score = GM.GetScore();
         float bonus = 1;
-        if (hit_percent >= 50) bonus = 1.2f;
-        else if (hit_percent >= 70) bonus = 1.4f;
+        if (hit_percent >= 50) bonus = 1.4f;
+        else if (hit_percent >= 70) bonus = 1.7f;
         else if (hit_percent >= 90) bonus = 2.0f;
+
+        shot_text.text = "撃った数:" + GM.Count_arrow.ToString();
+        hit_text.text = "ヒット数:" + GM.Count_hit.ToString();
+        per_text.text = "命中率:" + hit_percent.ToString("F2")+"%";
+        bonus__text.text = "命中率ボーナス:" + bonus + "倍";
+        int last_score = (int)(GM.GetScore() * bonus);
         score_text.text = "スコア:" + last_score.ToString();
     }
 }
